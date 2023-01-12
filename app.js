@@ -8,6 +8,7 @@ import { usersRouter } from './routes/users.route.js';
 import { postsRouter } from './routes/posts.route.js';
 import { offersRouter } from './routes/offers.route.js';
 import { archiveRouter } from './routes/archive.route.js';
+import { errorsHandler } from './helpers/index.js';
 
 dotenv.config();
 
@@ -28,6 +29,8 @@ app.use('/api/archive', archiveRouter);
 app.use((_, res) => {
   res.status(404).json({ message: 'Sorry, this resource not found' });
 });
+
+app.use(errorsHandler);
 
 const start = async () => {
   try {
