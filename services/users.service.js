@@ -38,6 +38,8 @@ const passReset = async ({ email }) => {
   if (!user) throw new CustomError(`User with email: ${email} not found`);
 
   const newPass = generatePass();
+
+  //TODO: added friendly mess template
   const msg = {
     to: email,
     subject: 'EManager | Password Recovery',
@@ -66,6 +68,7 @@ const changePass = async ({ email, password }) => {
 
   if (!user) throw new NotAuthorizedError('Not authorized');
 
+  //TODO: added friendly mess template
   const msg = {
     to: email,
     subject: 'EManager | Change password',

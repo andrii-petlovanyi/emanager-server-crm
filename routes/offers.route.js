@@ -1,15 +1,16 @@
 import express from 'express';
+import {
+  listOffersCtrl,
+  offerByIdCtrl,
+  removeOfferCtrl,
+} from '../controllers/offers.controller.js';
+import { checkJWT, wrapCtrl } from '../middleware/index.js';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.status(200).json({ message: 'all offers' });
-});
-router.get('/:offerId', (req, res) => {
-  res.status(200).json({ message: 'get one offer' });
-});
-router.delete('/:postId', (req, res) => {
-  res.status(200).json({ message: 'delete all offer' });
-});
+router.use(checkJWT);
+router.get('/', wrapCtrl(listOffersCtrl));
+router.get('/:offerId', wrapCtrl(offerByIdCtrl));
+router.delete('/:offerId', wrapCtrl(removeOfferCtrl));
 
 export { router as offersRouter };
