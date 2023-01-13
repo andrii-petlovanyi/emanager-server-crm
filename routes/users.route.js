@@ -1,28 +1,38 @@
 import express from 'express';
 import {
+  changePassCtrl,
+  getCurrentUserCtrl,
+  logOutCtrl,
   passResetCtrl,
   signInCtrl,
   signUpCtrl,
 } from '../controllers/users.controller.js';
 import { checkJWT, reqValidation, wrapCtrl } from '../middleware/index.js';
-import { signInJoiSchema, signUpJoiSchema } from '../models/joi/user.model.js';
+import {
+  changePasswordSchema,
+  forgotPasswordSchema,
+  signInJoiSchema,
+  signUpJoiSchema,
+} from '../models/joi/user.model.js';
 
 const router = express.Router();
 
 router.post('/signin', reqValidation(signInJoiSchema), wrapCtrl(signInCtrl));
 router.post('/signup', reqValidation(signUpJoiSchema), wrapCtrl(signUpCtrl));
-router.post('/password-reset', wrapCtrl(passResetCtrl));
+router.post(
+  '/password-reset',
+  reqValidation(forgotPasswordSchema),
+  wrapCtrl(passResetCtrl),
+);
 
 router.use(checkJWT);
-router.get('/current', (req, res) => {
-  res.status(200).json({ message: 'get current user with data' });
-});
-router.get('/logout', (req, res) => {
-  res.status(200).json({ message: 'Logout user' });
-});
-router.patch('/:userId/password', (req, res) => {
-  res.status(200).json({ message: 'change user password' });
-});
+router.get('/current', wrapCtrl(getCurrentUserCtrl));
+router.get('/logout', wrapCtrl(logOutCtrl));
+router.patch(
+  '/:userId/password',
+  reqValidation(changePasswordSchema),
+  wrapCtrl(changePassCtrl),
+);
 //TODO: added ctrl for notes
 router.patch('/:userId', (req, res) => {
   res.status(200).json({ message: 'add notes for user' });

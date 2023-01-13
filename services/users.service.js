@@ -1,5 +1,8 @@
 import {
   ConflictError,
+  CustomError,
+  emailSender,
+  generatePass,
   generateToken,
   NotAuthorizedError,
 } from '../helpers/index.js';
@@ -32,14 +35,50 @@ const signUp = async ({ name, email, password }) => {
 const passReset = async ({ email }) => {
   const user = await User.findOne({ email });
 
-  //TODO: function for generate new password
-  const password = '123321';
-  //TODO: function for send new password on user email
+  if (!user) throw new CustomError(`User with email: ${email} not found`);
+
+  const newPass = generatePass();
+  const msg = {
+    to: email,
+    subject: 'EManager | Password Recovery',
+    text: `Hi! Your new password: ${newPass} \n Please sign in with new password!`,
+    html: `Hi! Your new password: <b>${newPass}</b> \n Please sign in with new password!`,
+  };
+
+  await emailSender(msg);
+
+  user.setPassword(newPass);
+  user.save();
+
+  return;
+};
+
+const logOut = async id => {
+  const user = await User.findByIdAndUpdate(id, { token: null });
+
+  if (!user) throw new NotAuthorizedError('Not authorized');
+
+  return;
+};
+
+const changePass = async ({ email, password }) => {
+  const user = await User.findOne({ email });
+
+  if (!user) throw new NotAuthorizedError('Not authorized');
+
+  const msg = {
+    to: email,
+    subject: 'EManager | Change password',
+    text: `Hi! You have successfully changed your account password. Your new password: ${password}`,
+    html: `Hi! You have successfully changed your account password. Your new password: <b>${password}</b> `,
+  };
+
+  await emailSender(msg);
 
   user.setPassword(password);
   user.save();
 
-  return user;
+  return;
 };
 
-export { signIn, signUp, passReset };
+export { signIn, signUp, passReset, logOut, changePass };

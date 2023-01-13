@@ -17,7 +17,7 @@ const userSchema = mongoose.Schema(
       required: [true, 'Password is required! Please set password'],
     },
     token: { type: String, default: null },
-    notes: { type: String },
+    notes: { type: String, default: null },
   },
   { versionKey: false, timestamps: true },
 );
