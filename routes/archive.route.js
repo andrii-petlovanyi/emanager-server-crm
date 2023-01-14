@@ -1,18 +1,34 @@
 import express from 'express';
+import {
+  addArchivePostCtrl,
+  archivePostByIdCtrl,
+  listArchiveCtrl,
+  moveArchivePostCtrl,
+  removeArchivePostCtrl,
+} from '../controllers/archive.controller.js';
+import {
+  checkJWT,
+  idValidation,
+  reqValidation,
+  wrapCtrl,
+} from '../middleware/index.js';
+import { archiveAddPostJoiSchema } from '../models/joi/archive.model.js';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.status(200).json({ message: 'all archive' });
-});
-router.post('/', (req, res) => {
-  res.status(201).json({ message: 'add to archive' });
-});
-router.get('/:postId', (req, res) => {
-  res.status(200).json({ message: 'one post in archive' });
-});
-router.delete('/:postId', (req, res) => {
-  res.status(200).json({ message: 'delete from archive' });
-});
+router.use(checkJWT);
+router.get('/', wrapCtrl(listArchiveCtrl));
+router.get('/:archivePostId', idValidation, wrapCtrl(archivePostByIdCtrl));
+router.post(
+  '/',
+  reqValidation(archiveAddPostJoiSchema),
+  wrapCtrl(addArchivePostCtrl),
+);
+router.delete('/:archivePostId', idValidation, wrapCtrl(removeArchivePostCtrl));
+router.delete(
+  '/:archivePostId/move',
+  idValidation,
+  wrapCtrl(moveArchivePostCtrl),
+);
 
 export { router as archiveRouter };

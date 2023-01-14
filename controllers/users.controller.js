@@ -34,6 +34,7 @@ const signUpCtrl = async (req, res) => {
   res.status(201).json({
     status: 'success',
     code: 201,
+    message: 'You are sign up successfully!',
     user: {
       id: user._id,
       name: user.name,
@@ -59,7 +60,7 @@ const logOutCtrl = async (req, res) => {
 
   await logOut(id);
 
-  res.status(204).json();
+  res.status(204).json({ message: 'You are log out successfully!' });
 };
 
 const getCurrentUserCtrl = async (req, res) => {

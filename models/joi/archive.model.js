@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-const postJoiSchema = Joi.object({
+const archivePostJoiSchema = Joi.object({
   model: Joi.string().required().min(4).max(16).messages({
     'string.min': `Password length must be at least {{#limit}} characters long`,
     'string.max': `Password length must be at most {{#limit}} characters long`,
@@ -22,4 +22,12 @@ const postJoiSchema = Joi.object({
   }),
 });
 
-export { postJoiSchema };
+const archiveAddPostJoiSchema = Joi.object({
+  postId: Joi.string().required().alphanum().min(24).max(28).messages({
+    'string.min': `Post id length must be at least {{#limit}} characters long`,
+    'string.max': `Post id length must be at most {{#limit}} characters long`,
+    'string.alphanum': 'Post id must only contain alpha-numeric characters',
+  }),
+});
+
+export { archivePostJoiSchema, archiveAddPostJoiSchema };

@@ -9,7 +9,7 @@ const listOffersCtrl = async (req, res) => {
 
   const data = await listOffers(page, limit);
 
-  res.status(200).json({ data, status: 'success' });
+  res.status(200).json({ status: 'success', code: 200, data });
 };
 
 const offerByIdCtrl = async (req, res) => {
@@ -17,7 +17,7 @@ const offerByIdCtrl = async (req, res) => {
 
   const data = await offerById(offerId);
 
-  res.status(200).json({ data, status: 'success' });
+  res.status(200).json({ status: 'success', code: 200, data });
 };
 
 const removeOfferCtrl = async (req, res) => {
@@ -27,6 +27,7 @@ const removeOfferCtrl = async (req, res) => {
 
   res.status(200).json({
     status: 'success',
+    code: 200,
     message: 'Offer deleted successfully!',
   });
 };

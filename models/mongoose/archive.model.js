@@ -11,7 +11,7 @@ const archiveSchema = mongoose.Schema(
       type: String,
       required: [true, 'Info is required! Please enter info'],
     },
-    urlOff: {
+    urlOffSite: {
       type: String,
       required: [true, 'URL is required! Please enter url'],
     },
@@ -19,7 +19,7 @@ const archiveSchema = mongoose.Schema(
       type: String,
       required: [true, 'URL is required! Please enter url'],
     },
-    imgUrl: {
+    urlImg: {
       type: String,
       required: [true, 'URL is required! Please enter url'],
     },

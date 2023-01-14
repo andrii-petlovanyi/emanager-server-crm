@@ -1,21 +1,31 @@
 import express from 'express';
+import {
+  addPostCtrl,
+  listPostsCtrl,
+  postByIdCtrl,
+  removePostCtrl,
+  updatePostCtrl,
+} from '../controllers/posts.controller.js';
+import {
+  checkJWT,
+  wrapCtrl,
+  idValidation,
+  reqValidation,
+} from '../middleware/index.js';
+import { postJoiSchema } from '../models/joi/post.model.js';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.status(200).json({ message: 'all posts' });
-});
-router.post('/', (req, res) => {
-  res.status(201).json({ message: 'create posts' });
-});
-router.get('/:postId', (req, res) => {
-  res.status(200).json({ message: 'get one post' });
-});
-router.patch('/:postId', (req, res) => {
-  res.status(200).json({ message: 'change posts' });
-});
-router.delete('/:postId', (req, res) => {
-  res.status(200).json({ message: 'delete all posts' });
-});
+router.use(checkJWT);
+router.get('/', wrapCtrl(listPostsCtrl));
+router.get('/:postId', idValidation, wrapCtrl(postByIdCtrl));
+router.delete('/:postId', idValidation, wrapCtrl(removePostCtrl));
+router.post('/', reqValidation(postJoiSchema), wrapCtrl(addPostCtrl));
+router.put(
+  '/:postId',
+  idValidation,
+  reqValidation(postJoiSchema),
+  wrapCtrl(updatePostCtrl),
+);
 
 export { router as postsRouter };

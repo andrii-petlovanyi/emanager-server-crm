@@ -7,7 +7,12 @@ import {
   signInCtrl,
   signUpCtrl,
 } from '../controllers/users.controller.js';
-import { checkJWT, reqValidation, wrapCtrl } from '../middleware/index.js';
+import {
+  checkJWT,
+  idValidation,
+  reqValidation,
+  wrapCtrl,
+} from '../middleware/index.js';
 import {
   changePasswordSchema,
   forgotPasswordSchema,
@@ -30,6 +35,7 @@ router.get('/current', wrapCtrl(getCurrentUserCtrl));
 router.get('/logout', wrapCtrl(logOutCtrl));
 router.patch(
   '/:userId/password',
+  idValidation,
   reqValidation(changePasswordSchema),
   wrapCtrl(changePassCtrl),
 );
