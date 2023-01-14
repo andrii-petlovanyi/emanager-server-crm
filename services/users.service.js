@@ -25,6 +25,16 @@ const signUp = async ({ name, email, password }) => {
 
   if (user) throw new ConflictError(`User with email ${email} is registered`);
 
+  //TODO: added friendly mess template
+  const msg = {
+    to: email,
+    subject: 'EManager | Registration',
+    text: `Hi! Welcome to small CRM for ELXHelper bot! Your credentials: email: ${email} password: ${password} `,
+    html: `Hi! Welcome to small CRM for ELXHelper bot! <br><br> Your credentials: <br> email: ${email} <br> password: ${password} <br><br> Please sign in with this credentials!`,
+  };
+
+  await emailSender(msg);
+
   const newUser = new User({ name, email });
   newUser.setPassword(password);
 
@@ -44,7 +54,7 @@ const passReset = async ({ email }) => {
     to: email,
     subject: 'EManager | Password Recovery',
     text: `Hi! Your new password: ${newPass} \n Please sign in with new password!`,
-    html: `Hi! Your new password: <b>${newPass}</b> \n Please sign in with new password!`,
+    html: `Hi! <br> Your new password: <br> <b>${newPass}</b> <br><br> Please sign in with new password!`,
   };
 
   await emailSender(msg);
@@ -73,7 +83,7 @@ const changePass = async ({ email, password }) => {
     to: email,
     subject: 'EManager | Change password',
     text: `Hi! You have successfully changed your account password. Your new password: ${password}`,
-    html: `Hi! You have successfully changed your account password. Your new password: <b>${password}</b> `,
+    html: `Hi! <br> You have successfully changed your account password. <br> Your new password: <br> <b>${password}</b> `,
   };
 
   await emailSender(msg);
