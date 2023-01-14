@@ -14,14 +14,12 @@ const signInCtrl = async (req, res) => {
   res.status(200).json({
     status: 'success',
     code: 200,
-    data: {
-      token,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        notes: user.notes,
-      },
+    token,
+    user: {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      notes: user.notes,
     },
   });
 };
@@ -69,12 +67,10 @@ const getCurrentUserCtrl = async (req, res) => {
   res.status(200).json({
     status: 'success',
     code: 200,
-    data: {
-      user: {
-        id,
-        name,
-        email,
-      },
+    user: {
+      id,
+      name,
+      email,
     },
   });
 };
