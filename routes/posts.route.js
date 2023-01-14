@@ -28,4 +28,6 @@ router.put(
   wrapCtrl(updatePostCtrl),
 );
 
+//TODO: add search for model
+
 export { router as postsRouter };
