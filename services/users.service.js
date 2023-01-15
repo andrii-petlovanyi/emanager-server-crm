@@ -22,6 +22,7 @@ const signIn = async ({ email, password }) => {
 
 const signUp = async ({ name, email, password }) => {
   const user = await User.findOne({ email });
+  console.log(user);
 
   if (user) throw new ConflictError(`User with email ${email} is registered`);
 

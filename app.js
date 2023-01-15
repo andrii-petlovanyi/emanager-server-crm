@@ -27,7 +27,7 @@ app.use('/api/offers', offersRouter);
 app.use('/api/archive', archiveRouter);
 
 app.use((_, res) => {
-  res.status(404).json({ message: 'Sorry, this resource not found' });
+  res.status(404).json({ message: 'Sorry, but this resource not found' });
 });
 
 app.use(errorsHandler);
