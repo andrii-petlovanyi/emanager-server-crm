@@ -9,7 +9,9 @@ const listOffersCtrl = async (req, res) => {
 
   const data = await listOffers(page, limit);
 
-  res.status(200).json({ status: 'success', code: 200, data });
+  res
+    .status(200)
+    .json({ status: 'success', code: 200, data, totalOffers: data.length });
 };
 
 const offerByIdCtrl = async (req, res) => {

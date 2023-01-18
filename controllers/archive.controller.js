@@ -11,7 +11,14 @@ const listArchiveCtrl = async (req, res) => {
 
   const data = await listArchive(page, limit);
 
-  res.status(200).json({ status: 'success', code: 200, data });
+  res
+    .status(200)
+    .json({
+      status: 'success',
+      code: 200,
+      data,
+      totalArchivePosts: data.length,
+    });
 };
 
 const archivePostByIdCtrl = async (req, res) => {
