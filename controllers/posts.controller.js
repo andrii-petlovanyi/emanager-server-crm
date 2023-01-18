@@ -9,11 +9,9 @@ import {
 const listPostsCtrl = async (req, res) => {
   const { page = 1, limit = 10 } = req.query;
 
-  const data = await listPosts(page, limit);
+  const { posts, totalPosts } = await listPosts(page, limit);
 
-  res
-    .status(200)
-    .json({ status: 'success', code: 200, data, totalPosts: data.length });
+  res.status(200).json({ status: 'success', code: 200, posts, totalPosts });
 };
 
 const postByIdCtrl = async (req, res) => {

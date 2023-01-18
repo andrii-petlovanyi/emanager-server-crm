@@ -7,8 +7,9 @@ const listOffers = async (page, limit) => {
     skip,
     limit: Number(limit),
   });
+  const totalOffers = Offer.count();
 
-  return offers;
+  return { offers, totalOffers };
 };
 
 const offerById = async offerId => {

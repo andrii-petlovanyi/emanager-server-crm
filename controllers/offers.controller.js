@@ -7,11 +7,9 @@ import {
 const listOffersCtrl = async (req, res) => {
   const { page = 1, limit = 10 } = req.query;
 
-  const data = await listOffers(page, limit);
+  const { offers, totalOffers } = await listOffers(page, limit);
 
-  res
-    .status(200)
-    .json({ status: 'success', code: 200, data, totalOffers: data.length });
+  res.status(200).json({ status: 'success', code: 200, offers, totalOffers });
 };
 
 const offerByIdCtrl = async (req, res) => {

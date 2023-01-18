@@ -9,16 +9,14 @@ import {
 const listArchiveCtrl = async (req, res) => {
   const { page = 1, limit = 10 } = req.query;
 
-  const data = await listArchive(page, limit);
+  const { archivePosts, totalArchivePosts } = await listArchive(page, limit);
 
-  res
-    .status(200)
-    .json({
-      status: 'success',
-      code: 200,
-      data,
-      totalArchivePosts: data.length,
-    });
+  res.status(200).json({
+    status: 'success',
+    code: 200,
+    archivePosts,
+    totalArchivePosts,
+  });
 };
 
 const archivePostByIdCtrl = async (req, res) => {

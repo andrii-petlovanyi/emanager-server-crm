@@ -3,22 +3,23 @@ import { Post } from '../models/mongoose/post.model.js';
 
 const listPosts = async (page, limit) => {
   const skip = (page - 1) * limit;
-  const offers = await Post.find({}, '', {
+  const posts = await Post.find({}, '', {
     skip,
     limit: Number(limit),
   })
     .sort([['updatedAt', -1]])
     .populate('author', '_id name');
+  const totalPosts = await Post.count();
 
-  return offers;
+  return { posts, totalPosts };
 };
 
 const postById = async postId => {
-  const offer = await Post.findById(postId).populate('author', '_id name');
+  const post = await Post.findById(postId).populate('author', '_id name');
 
-  if (!offer) throw new CustomError(`Offer with id: ${postId} not found`);
+  if (!post) throw new CustomError(`Offer with id: ${postId} not found`);
 
-  return offer;
+  return post;
 };
 
 const addPost = async (id, body) => {

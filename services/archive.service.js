@@ -4,14 +4,15 @@ import { Post } from '../models/mongoose/post.model.js';
 
 const listArchive = async (page, limit) => {
   const skip = (page - 1) * limit;
-  const archive = await Archive.find({}, '', {
+  const archivePosts = await Archive.find({}, '', {
     skip,
     limit: Number(limit),
   })
     .sort([['updatedAt', -1]])
     .populate('author', '_id name');
+  const totalArchivePosts = await Archive.count();
 
-  return archive;
+  return { archivePosts, totalArchivePosts };
 };
 
 const archivePostById = async archivePostId => {
