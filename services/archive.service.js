@@ -7,7 +7,9 @@ const listArchive = async (page, limit) => {
   const archive = await Archive.find({}, '', {
     skip,
     limit: Number(limit),
-  });
+  })
+    .sort([['updatedAt', -1]])
+    .populate('author', '_id name');
 
   return archive;
 };

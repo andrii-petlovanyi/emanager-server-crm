@@ -6,7 +6,9 @@ const listPosts = async (page, limit) => {
   const offers = await Post.find({}, '', {
     skip,
     limit: Number(limit),
-  }).populate('author', '_id name');
+  })
+    .sort([['updatedAt', -1]])
+    .populate('author', '_id name');
 
   return offers;
 };
@@ -20,10 +22,7 @@ const postById = async postId => {
 };
 
 const addPost = async (id, body) => {
-  const newPost = Post.create({ ...body, author: id }).populate(
-    'author',
-    '_id name',
-  );
+  const newPost = Post.create({ ...body, author: id });
   return newPost;
 };
 
