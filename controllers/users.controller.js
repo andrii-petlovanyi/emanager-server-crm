@@ -62,7 +62,7 @@ const logOutCtrl = async (req, res) => {
 };
 
 const getCurrentUserCtrl = async (req, res) => {
-  const { name, email, _id: id } = req.user;
+  const { _id: id, name, email, notes } = req.user;
 
   res.status(200).json({
     status: 'success',
@@ -71,6 +71,7 @@ const getCurrentUserCtrl = async (req, res) => {
       id,
       name,
       email,
+      notes,
     },
   });
 };

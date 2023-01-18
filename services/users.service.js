@@ -17,6 +17,7 @@ const signIn = async ({ email, password }) => {
   const token = generateToken(user);
 
   await User.findByIdAndUpdate(user._id, { token });
+
   return { user, token };
 };
 
