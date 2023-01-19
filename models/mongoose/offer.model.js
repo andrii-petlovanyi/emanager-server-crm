@@ -7,8 +7,8 @@ const offerSchema = mongoose.Schema(
       required: [true, 'Model is required! Please enter model'],
       unique: true,
     },
-    FirstName: { type: String },
-    LastName: { type: String },
+    firstName: { type: String },
+    lastName: { type: String },
   },
   { versionKey: false, timestamps: true },
 );

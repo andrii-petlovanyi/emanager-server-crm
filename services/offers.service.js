@@ -6,8 +6,8 @@ const listOffers = async (page, limit) => {
   const offers = await Offer.find({}, '', {
     skip,
     limit: Number(limit),
-  });
-  const totalOffers = Offer.count();
+  }).sort([['date', -1]]);
+  const totalOffers = await Offer.count();
 
   return { offers, totalOffers };
 };
