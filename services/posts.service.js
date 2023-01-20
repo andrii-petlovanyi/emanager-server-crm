@@ -1,5 +1,5 @@
 import { CustomError } from '../helpers/index.js';
-import { Post } from '../models/mongoose/post.model.js';
+import { Post } from '../models/post.model.js';
 
 const listPosts = async (page, limit) => {
   const skip = (page - 1) * limit;
@@ -30,6 +30,7 @@ const addPost = async (id, body) => {
 const updatePost = async (postId, body) => {
   const updatedPost = await Post.findByIdAndUpdate(postId, body, {
     new: true,
+    runValidators: true,
   });
 
   if (!updatedPost) throw new CustomError(`Post with id: ${postId} not found`);

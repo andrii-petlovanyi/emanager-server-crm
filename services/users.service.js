@@ -6,7 +6,7 @@ import {
   generateToken,
   NotAuthorizedError,
 } from '../helpers/index.js';
-import { User } from '../models/mongoose/user.model.js';
+import { User } from '../models/user.model.js';
 
 const signIn = async ({ email, password }) => {
   const user = await User.findOne({ email });
@@ -68,7 +68,11 @@ const passReset = async ({ email }) => {
 };
 
 const logOut = async id => {
-  const user = await User.findByIdAndUpdate(id, { token: null });
+  const user = await User.findByIdAndUpdate(
+    id,
+    { token: null },
+    { runValidators: true },
+  );
 
   if (!user) throw new NotAuthorizedError('Not authorized');
 

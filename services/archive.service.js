@@ -1,6 +1,6 @@
 import { CustomError } from '../helpers/index.js';
-import { Archive } from '../models/mongoose/archive.model.js';
-import { Post } from '../models/mongoose/post.model.js';
+import { Archive } from '../models/archive.model.js';
+import { Post } from '../models/post.model.js';
 
 const listArchive = async (page, limit) => {
   const skip = (page - 1) * limit;

@@ -12,7 +12,7 @@ import {
   reqValidation,
   wrapCtrl,
 } from '../middleware/index.js';
-import { archiveAddPostJoiSchema } from '../models/joi/archive.model.js';
+import { archiveAddPostJoiSchema } from '../validation/archive.model.js';
 
 const router = express.Router();
 

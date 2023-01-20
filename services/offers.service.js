@@ -1,5 +1,5 @@
 import { CustomError } from '../helpers/errors.js';
-import { Offer } from '../models/mongoose/offer.model.js';
+import { Offer } from '../models/offer.model.js';
 
 const listOffers = async (page, limit) => {
   const skip = (page - 1) * limit;

@@ -18,7 +18,7 @@ import {
   forgotPasswordSchema,
   signInJoiSchema,
   signUpJoiSchema,
-} from '../models/joi/user.model.js';
+} from '../validation/user.model.js';
 
 const router = express.Router();
 

@@ -12,7 +12,7 @@ import {
   idValidation,
   reqValidation,
 } from '../middleware/index.js';
-import { postJoiSchema } from '../models/joi/post.model.js';
+import { postJoiSchema } from '../validation/post.model.js';
 
 const router = express.Router();
 

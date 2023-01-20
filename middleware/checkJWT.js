@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 import { NotAuthorizedError } from '../helpers/index.js';
-import { User } from '../models/mongoose/user.model.js';
+import { User } from '../models/user.model.js';
 
 dotenv.config();
 

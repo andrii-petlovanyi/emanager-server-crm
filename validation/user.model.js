@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { emailRegExp } from '../../helpers/index.js';
+import { emailRegExp } from '../helpers/index.js';
 
 const signInJoiSchema = Joi.object({
   email: Joi.string().pattern(emailRegExp).required().messages({
