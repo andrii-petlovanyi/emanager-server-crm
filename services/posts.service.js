@@ -1,4 +1,4 @@
-import { CustomError } from '../helpers/index.js';
+import { ConflictError, CustomError } from '../helpers/index.js';
 import { Post } from '../models/post.model.js';
 
 const listPosts = async (page, limit) => {
@@ -23,7 +23,17 @@ const postById = async postId => {
 };
 
 const addPost = async (id, body) => {
-  const newPost = Post.create({ ...body, author: id });
+  const isAdded = await Post.findOne({ model: body.model });
+  if (isAdded)
+    throw new ConflictError(
+      `Model ${body.model} is already available in database!`,
+    );
+
+  const newPost = Post.create({
+    ...body,
+    model: body.model.toLowerCase(),
+    author: id,
+  });
   return newPost;
 };
 

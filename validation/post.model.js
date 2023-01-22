@@ -2,8 +2,8 @@ import Joi from 'joi';
 
 const postJoiSchema = Joi.object({
   model: Joi.string().required().min(4).max(16).messages({
-    'string.min': `Password length must be at least {{#limit}} characters long`,
-    'string.max': `Password length must be at most {{#limit}} characters long`,
+    'string.min': `Model length must be at least {{#limit}} characters long`,
+    'string.max': `Model length must be at most {{#limit}} characters long`,
   }),
   info: Joi.string().min(20).required().messages({
     'string.min': `Info length must be at least {{#limit}} characters long`,
