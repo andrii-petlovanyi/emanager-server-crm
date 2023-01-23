@@ -1,15 +1,25 @@
 import { ConflictError, CustomError } from '../helpers/index.js';
 import { Post } from '../models/post.model.js';
 
-const listPosts = async (page, limit) => {
+const listPosts = async (page, limit, search) => {
   const skip = (page - 1) * limit;
-  const posts = await Post.find({}, '', {
-    skip,
-    limit: Number(limit),
-  })
-    .sort([['updatedAt', -1]])
-    .populate('author', '_id name');
-  const totalPosts = await Post.count();
+  const posts = search
+    ? await Post.find({ model: { $regex: `${search}` } }, '', {
+        skip,
+        limit: Number(limit),
+      })
+        .sort([['updatedAt', -1]])
+        .populate('author', '_id name')
+    : await Post.find({}, '', {
+        skip,
+        limit: Number(limit),
+      })
+        .sort([['updatedAt', -1]])
+        .populate('author', '_id name');
+
+  const totalPosts = search
+    ? await Post.count({ model: { $regex: `${search}` } })
+    : await Post.count();
 
   return { posts, totalPosts };
 };
