@@ -20,7 +20,7 @@ const signInCtrl = async (req, res) => {
       id: user._id,
       name: user.name,
       email: user.email,
-      notes: user.notes,
+      note: user.note,
     },
   });
 };
@@ -63,7 +63,7 @@ const logOutCtrl = async (req, res) => {
 };
 
 const getCurrentUserCtrl = async (req, res) => {
-  const { _id: id, name, email, notes } = req.user;
+  const { _id: id, name, email, note } = req.user;
 
   res.status(200).json({
     status: 'success',
@@ -72,7 +72,7 @@ const getCurrentUserCtrl = async (req, res) => {
       id,
       name,
       email,
-      notes,
+      note,
     },
   });
 };
