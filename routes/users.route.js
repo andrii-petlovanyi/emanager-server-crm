@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+  changeNoteCtrl,
   changePassCtrl,
   getCurrentUserCtrl,
   logOutCtrl,
@@ -14,6 +15,7 @@ import {
   wrapCtrl,
 } from '../middleware/index.js';
 import {
+  changeNoteSchema,
   changePasswordSchema,
   forgotPasswordSchema,
   signInJoiSchema,
@@ -40,8 +42,11 @@ router.patch(
   wrapCtrl(changePassCtrl),
 );
 //TODO: added ctrl for notes
-router.patch('/:userId', (req, res) => {
-  res.status(200).json({ message: 'add notes for user' });
-});
+router.patch(
+  '/:userId/note',
+  idValidation,
+  reqValidation(changeNoteSchema),
+  wrapCtrl(changeNoteCtrl),
+);
 
 export { router as usersRouter };

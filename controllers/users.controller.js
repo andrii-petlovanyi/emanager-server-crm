@@ -1,4 +1,5 @@
 import {
+  changeNote,
   changePass,
   logOut,
   passReset,
@@ -77,14 +78,28 @@ const getCurrentUserCtrl = async (req, res) => {
 };
 
 const changePassCtrl = async (req, res) => {
-  const body = req.body;
+  const { password } = req.body;
+  const { email } = req.user;
 
-  await changePass(body);
+  await changePass({ email, password });
 
   res.status(200).json({
     status: 'success',
     code: 200,
     message: 'Password changed successfully!',
+  });
+};
+
+const changeNoteCtrl = async (req, res) => {
+  const { note } = req.body;
+  const { id } = req.user;
+
+  await changeNote(id, note);
+
+  res.status(200).json({
+    status: 'success',
+    code: 200,
+    message: 'Note updated successfully!',
   });
 };
 
@@ -95,4 +110,5 @@ export {
   logOutCtrl,
   changePassCtrl,
   getCurrentUserCtrl,
+  changeNoteCtrl,
 };

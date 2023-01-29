@@ -23,7 +23,6 @@ const signIn = async ({ email, password }) => {
 
 const signUp = async ({ name, email, password }) => {
   const user = await User.findOne({ email });
-  console.log(user);
 
   if (user) throw new ConflictError(`User with email ${email} is registered`);
 
@@ -82,7 +81,7 @@ const logOut = async id => {
 const changePass = async ({ email, password }) => {
   const user = await User.findOne({ email });
 
-  if (!user) throw new NotAuthorizedError('Not authorized');
+  if (!user) throw new NotAuthorizedError(`Not user with email: ${email}`);
 
   //TODO: added friendly mess template
   const msg = {
@@ -100,4 +99,19 @@ const changePass = async ({ email, password }) => {
   return;
 };
 
-export { signIn, signUp, passReset, logOut, changePass };
+const changeNote = async (id, note) => {
+  const updatedNote = await User.findByIdAndUpdate(
+    id,
+    { note },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+
+  if (!updatedNote) throw new CustomError('User not found');
+
+  return;
+};
+
+export { signIn, signUp, passReset, logOut, changePass, changeNote };

@@ -32,12 +32,15 @@ const forgotPasswordSchema = Joi.object({
 });
 
 const changePasswordSchema = Joi.object({
-  email: Joi.string().pattern(emailRegExp).required().messages({
-    'string.pattern.base': `Please enter a valid email address`,
-  }),
   password: Joi.string().min(6).max(12).required().messages({
     'string.min': `New password length must be at least {{#limit}} characters long`,
     'string.max': `New password length must be at most {{#limit}} characters long`,
+  }),
+});
+
+const changeNoteSchema = Joi.object({
+  note: Joi.string().max(140).required().messages({
+    'string.max': `Your note length must be at most {{#limit}} characters long`,
   }),
 });
 
@@ -46,4 +49,5 @@ export {
   signUpJoiSchema,
   forgotPasswordSchema,
   changePasswordSchema,
+  changeNoteSchema,
 };
