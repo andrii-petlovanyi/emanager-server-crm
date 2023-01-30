@@ -1,6 +1,9 @@
 import {
+  changeEmail,
   changeNote,
   changePass,
+  clearNotifications,
+  countNotifications,
   logOut,
   passReset,
   signIn,
@@ -62,7 +65,7 @@ const logOutCtrl = async (req, res) => {
   res.status(204).json({ message: 'You are log out successfully!' });
 };
 
-const getCurrentUserCtrl = async (req, res) => {
+const currentUserCtrl = async (req, res) => {
   const { _id: id, name, email, note } = req.user;
 
   res.status(200).json({
@@ -103,12 +106,52 @@ const changeNoteCtrl = async (req, res) => {
   });
 };
 
+const changeEmailCtrl = async (req, res) => {
+  const { email: newEmail } = req.body;
+  const { id, email } = req.user;
+
+  await changeEmail(id, email, newEmail);
+
+  res.status(200).json({
+    status: 'success',
+    code: 200,
+    message: 'Email updated successfully!',
+  });
+};
+
+const countNotificationsCtrl = async (req, res) => {
+  const { id, notifi } = req.user;
+
+  const { notifi: updatedNotifi } = await countNotifications(id, notifi);
+
+  res.status(200).json({
+    status: 'success',
+    code: 200,
+    notifi: updatedNotifi,
+  });
+};
+
+const clearNotificationsCtrl = async (req, res) => {
+  const { id } = req.user;
+
+  await clearNotifications(id);
+
+  res.status(200).json({
+    status: 'success',
+    code: 200,
+    message: 'Notifications cleared!',
+  });
+};
+
 export {
   signInCtrl,
   signUpCtrl,
   passResetCtrl,
   logOutCtrl,
   changePassCtrl,
-  getCurrentUserCtrl,
+  currentUserCtrl,
   changeNoteCtrl,
+  changeEmailCtrl,
+  countNotificationsCtrl,
+  clearNotificationsCtrl,
 };

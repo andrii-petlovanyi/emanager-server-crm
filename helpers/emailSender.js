@@ -19,4 +19,15 @@ const emailSender = async data => {
   }
 };
 
-export { emailSender };
+const multiEmailSender = async data => {
+  try {
+    await sgMail.sendMultiple({ ...data, from: email });
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export { emailSender, multiEmailSender };

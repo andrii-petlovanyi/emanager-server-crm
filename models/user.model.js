@@ -18,6 +18,10 @@ const userSchema = mongoose.Schema(
     },
     token: { type: String, default: null },
     note: { type: String, default: null },
+    notifi: {
+      date: { type: String },
+      count: { type: Number, default: null },
+    },
   },
   { versionKey: false, timestamps: true },
 );

@@ -1,3 +1,4 @@
+import { multiEmailSender } from '../helpers/emailSender.js';
 import {
   ConflictError,
   CustomError,
@@ -6,6 +7,7 @@ import {
   generateToken,
   NotAuthorizedError,
 } from '../helpers/index.js';
+import { Offer } from '../models/offer.model.js';
 import { User } from '../models/user.model.js';
 
 const signIn = async ({ email, password }) => {
@@ -114,4 +116,72 @@ const changeNote = async (id, note) => {
   return;
 };
 
-export { signIn, signUp, passReset, logOut, changePass, changeNote };
+const changeEmail = async (id, email, newEmail) => {
+  const emailIsUse = await User.findOne({ newEmail });
+  if (emailIsUse) throw new ConflictError(`Sorry, but email: ${email} is used`);
+
+  const updatedUser = await User.findByIdAndUpdate(
+    id,
+    { email: newEmail },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+
+  if (!updatedUser) throw new CustomError('User not found');
+  //TODO: added friendly mess template
+  const msg = {
+    to: [email, newEmail],
+    subject: 'EManager | Change email',
+    text: `Hi! You have successfully changed your account email. Your new email: ${newEmail}`,
+    html: `Hi! <br> You have successfully changed your account email. <br> Your new email: <br> <b>${newEmail}</b> `,
+  };
+
+  await multiEmailSender(msg);
+
+  return;
+};
+
+const countNotifications = async (id, notifi) => {
+  const offers = await Offer.find({});
+
+  const countCountNotifi = offers.filter(offer => {
+    return Number(offer.date) > Number(notifi.date);
+  }).length;
+
+  const updatedNotifi = await User.findOneAndUpdate(
+    { _id: id },
+    {
+      ['notifi.count']: countCountNotifi,
+    },
+    { new: true },
+  );
+  return updatedNotifi;
+};
+
+const clearNotifications = async id => {
+  const newDatePoint = (Date.now() / 1000 - 1).toFixed(0);
+
+  const updatedUser = await User.findOneAndUpdate(
+    { _id: id },
+    { notifi: { date: newDatePoint, count: 0 } },
+    { new: true },
+  );
+
+  if (!updatedUser) throw new CustomError('User not found');
+
+  return;
+};
+
+export {
+  signIn,
+  signUp,
+  passReset,
+  logOut,
+  changePass,
+  changeNote,
+  changeEmail,
+  countNotifications,
+  clearNotifications,
+};

@@ -1,8 +1,11 @@
 import express from 'express';
 import {
+  changeEmailCtrl,
   changeNoteCtrl,
   changePassCtrl,
-  getCurrentUserCtrl,
+  clearNotificationsCtrl,
+  countNotificationsCtrl,
+  currentUserCtrl,
   logOutCtrl,
   passResetCtrl,
   signInCtrl,
@@ -33,7 +36,7 @@ router.post(
 );
 
 router.use(checkJWT);
-router.get('/current', wrapCtrl(getCurrentUserCtrl));
+router.get('/current', wrapCtrl(currentUserCtrl));
 router.get('/logout', wrapCtrl(logOutCtrl));
 router.patch(
   '/:userId/password',
@@ -41,12 +44,19 @@ router.patch(
   reqValidation(changePasswordSchema),
   wrapCtrl(changePassCtrl),
 );
-//TODO: added ctrl for notes
 router.patch(
   '/:userId/note',
   idValidation,
   reqValidation(changeNoteSchema),
   wrapCtrl(changeNoteCtrl),
 );
+router.patch(
+  '/:userId/email',
+  idValidation,
+  reqValidation(forgotPasswordSchema),
+  wrapCtrl(changeEmailCtrl),
+);
+router.get('/notification', wrapCtrl(countNotificationsCtrl));
+router.patch('/notification', wrapCtrl(clearNotificationsCtrl));
 
 export { router as usersRouter };

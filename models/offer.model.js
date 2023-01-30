@@ -9,6 +9,9 @@ const offerSchema = mongoose.Schema(
     },
     firstName: { type: String },
     lastName: { type: String },
+    date: { type: String },
+    username: { type: String },
+    premium: { type: String },
   },
   { versionKey: false, timestamps: true },
 );
