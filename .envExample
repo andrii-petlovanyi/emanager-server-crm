@@ -1,0 +1,5 @@
+PORT="3002"
+JWT_SECRET_KEY="yoursupersecretkey"
+MONGO_URL=""
+SENDGRID_API_KEY=""
+SENDGRID_EMAIL=""
