@@ -10,8 +10,28 @@ import {
   signUp,
 } from '../services/users.service.js';
 
+// import EventEmitter from 'events';
+
+// function hello() {
+//   let summary = 0;
+
+//   for (let i = 0; i <= 500000000; i++) {
+//     summary += i;
+//   }
+
+//   console.log(summary);
+// }
+
+// const myEmiter = new EventEmitter();
+
+// myEmiter.addListener('hello', hello);
+
 const signInCtrl = async (req, res) => {
   const body = req.body;
+
+  // setTimeout(() => {
+  //   myEmiter.emit('hello');
+  // }, 2000);
 
   const { token, user } = await signIn(body);
 
