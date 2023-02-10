@@ -2,15 +2,25 @@ import { CustomError } from '../helpers/index.js';
 import { Archive } from '../models/archive.model.js';
 import { Post } from '../models/post.model.js';
 
-const listArchive = async (page, limit) => {
+const listArchive = async (page, limit, search) => {
   const skip = (page - 1) * limit;
-  const archivePosts = await Archive.find({}, '', {
-    skip,
-    limit: Number(limit),
-  })
-    .sort([['updatedAt', -1]])
-    .populate('author', '_id name');
-  const totalArchivePosts = await Archive.count();
+  const archivePosts = search
+    ? await Archive.find({ model: { $regex: `${search}` } }, '', {
+        skip,
+        limit: Number(limit),
+      })
+        .sort([['updatedAt', -1]])
+        .populate('author', '_id name')
+    : await Archive.find({}, '', {
+        skip,
+        limit: Number(limit),
+      })
+        .sort([['updatedAt', -1]])
+        .populate('author', '_id name');
+
+  const totalArchivePosts = search
+    ? await Archive.count({ model: { $regex: `${search}` } })
+    : await Archive.count();
 
   return { archivePosts, totalArchivePosts };
 };

@@ -7,9 +7,13 @@ import {
 } from '../services/archive.service.js';
 
 const listArchiveCtrl = async (req, res) => {
-  const { page = 1, limit = 10 } = req.query;
+  const { page = 1, limit = 10, search } = req.query;
 
-  const { archivePosts, totalArchivePosts } = await listArchive(page, limit);
+  const { archivePosts, totalArchivePosts } = await listArchive(
+    page,
+    limit,
+    search,
+  );
 
   res.status(200).json({
     status: 'success',
